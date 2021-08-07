@@ -53,6 +53,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         return nil
     }
     
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+        mapView.deselectAnnotation(view.annotation, animated: true)
+        
+        if let ano = view.annotation as? DeviceAnnotation {
+            let nodeInfoVC = self.storyboard?.instantiateViewController(identifier: "nodeInfo") as! NodeInfoViewController
+            nodeInfoVC.nodeInfo = ano.nodeInfo
+            self.present(nodeInfoVC, animated: true, completion: nil)
+        }
+        
+    }
+    
     /*
     // MARK: - Navigation
 

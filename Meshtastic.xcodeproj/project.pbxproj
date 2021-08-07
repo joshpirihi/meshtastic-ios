@@ -60,6 +60,7 @@
 		C918E3D726BCBAD800EDBB2A /* channel.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918E3D626BCBAD800EDBB2A /* channel.pb.swift */; };
 		C918E3D926BDB8E600EDBB2A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918E3D826BDB8E600EDBB2A /* MapViewController.swift */; };
 		C918E3DB26BDBA6A00EDBB2A /* DeviceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918E3DA26BDBA6A00EDBB2A /* DeviceAnnotation.swift */; };
+		C93CF04426BE6810004FA557 /* NodeInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93CF04326BE6810004FA557 /* NodeInfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -130,6 +131,7 @@
 		C918E3D626BCBAD800EDBB2A /* channel.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = channel.pb.swift; sourceTree = "<group>"; };
 		C918E3D826BDB8E600EDBB2A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C918E3DA26BDBA6A00EDBB2A /* DeviceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAnnotation.swift; sourceTree = "<group>"; };
+		C93CF04326BE6810004FA557 /* NodeInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeInfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +229,8 @@
 		7DB29A012521EAE000AFDEE2 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				C93CF04226BE67FA004FA557 /* Node Info View */,
+				C93CF04126BE67F0004FA557 /* Map View */,
 				7D98BDAB26064129008A487E /* KeyboardLayoutGuide.swift */,
 				7DB29A062522236100AFDEE2 /* MasterViewController.swift */,
 				7DB29A022521EAE000AFDEE2 /* tvcBLEDevices.swift */,
@@ -246,10 +250,25 @@
 				7DF1B3C025D044D600900923 /* vcChat.swift */,
 				7D1D885A25E133740034F94E /* ScrollingDecelerator.swift */,
 				7DF4882525E1DCDF00187E23 /* avChatTextInput.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		C93CF04126BE67F0004FA557 /* Map View */ = {
+			isa = PBXGroup;
+			children = (
 				C918E3D826BDB8E600EDBB2A /* MapViewController.swift */,
 				C918E3DA26BDBA6A00EDBB2A /* DeviceAnnotation.swift */,
 			);
-			path = ViewController;
+			path = "Map View";
+			sourceTree = "<group>";
+		};
+		C93CF04226BE67FA004FA557 /* Node Info View */ = {
+			isa = PBXGroup;
+			children = (
+				C93CF04326BE6810004FA557 /* NodeInfoViewController.swift */,
+			);
+			path = "Node Info View";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -335,6 +354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C93CF04426BE6810004FA557 /* NodeInfoViewController.swift in Sources */,
 				7DFDE9EC252653D400B4BBF2 /* ChannelSettings_DO.swift in Sources */,
 				7D5710E725A8C80100A6D83E /* vcMyUserConfig.swift in Sources */,
 				7D78DDA025CF1D45006FCBE6 /* cellChatMessageUser.swift in Sources */,

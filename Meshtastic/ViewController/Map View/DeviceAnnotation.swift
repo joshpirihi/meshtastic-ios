@@ -16,10 +16,13 @@ class DeviceAnnotation: NSObject, MKAnnotation {
     
     var colour: UIColor = UIColor.systemRed
     
+    var nodeInfo: NodeInfo
+    
     init(nodeInfo: NodeInfo) {
         self.coordinate = CLLocationCoordinate2D(latitude: Double(nodeInfo.position.latitudeI)*1e-7, longitude: Double(nodeInfo.position.longitudeI)*1e-7)
         self.title = nodeInfo.user.longName
         self.subtitle = ""
+        self.nodeInfo = nodeInfo
         
     }
     
