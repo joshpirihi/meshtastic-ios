@@ -123,8 +123,8 @@ class BLEConroller : NSObject
     {
         var toNodeID: UInt32
         let nodeInfo_DP = NodeInfo_DP()
-        var toNode = NodeInfo_DO()
-        var fromNode = NodeInfo_DO()
+        var toNode = NodeInfo()
+        var fromNode = NodeInfo()
         let chatMessagr_DP = ChatMessage_DP()
         let chatMessage = ChatMessage_DO()
 
@@ -155,14 +155,18 @@ class BLEConroller : NSObject
         //let BROADCAST_ADDR = 0xffffffff
         let payloadData: Data = message.data(using: String.Encoding.utf8)!
     
-        var subPacket = SubPacket()
-        subPacket.data.payload = payloadData
-        subPacket.data.portnum = dataType
+        //var subPacket = SubPacket()
+        //subPacket.data.payload = payloadData
+        //subPacket.data.portnum = dataType
+        
+        var dataMessage = DataMessage()
+        dataMessage.payload = payloadData
+        dataMessage.portnum = dataType
         
         var meshPacket = MeshPacket()
         //meshPacket.to = UInt32(BROADCAST_ADDR)
         meshPacket.to = toNodeID
-        meshPacket.decoded = subPacket
+        meshPacket.decoded = dataMessage
         meshPacket.wantAck = true
         
         var toRadio: ToRadio!
@@ -184,9 +188,18 @@ class BLEConroller : NSObject
     
     public func setOwner(myUser: User)
     {
+        
+        var adminMessage: AdminMessage = AdminMessage()
+        adminMessage.setOwner = myUser
+        
+        var meshPacket = MeshPacket()
+        meshPacket.decoded.payload = try! adminMessage.serializedData()
+        
         var toRadio: ToRadio!
         toRadio = ToRadio()
-        toRadio.setOwner = myUser
+        toRadio.packet = meshPacket
+        //toRadio.setOwner = myUser
+        
         
         let binaryData: Data = try! toRadio.serializedData()
         if (connectedDevice.state == CBPeripheralState.connected)
@@ -207,8 +220,8 @@ class BLEConroller : NSObject
     {
         var toRadio: ToRadio!
         toRadio = ToRadio()
-        toRadio.setRadio.channelSettings = channelSettings
-        toRadio.setRadio.preferences = userPreferences
+        //toRadio.setRadio.channelSettings = channelSettings
+        //toRadio.setRadio.preferences = userPreferences
         
         let binaryData: Data = try! toRadio.serializedData()
         if (connectedDevice.state == CBPeripheralState.connected)

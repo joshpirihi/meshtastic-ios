@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Position_DO
+class DONTUSE_Position_DO
 {
     var latitudeI: Int32
     var longitudeI: Int32

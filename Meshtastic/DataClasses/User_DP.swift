@@ -67,13 +67,13 @@ class User_DP
     ///
     /// - Returns: A chatUseres array
     ///
-    public func getChatUsers() -> [User_DO]
+    public func getChatUsers() -> [User]
     {
-        var chatUsersArray = [User_DO]()
+        var chatUsersArray = [User]()
         let myUserId = getMyUserId()
         
         // create a user object for broadcasts
-        let broadcastUser = User_DO()
+        var broadcastUser = User()
         broadcastUser.id = "BC"
         broadcastUser.longName = "broadcast"
         broadcastUser.shortName = "bc"

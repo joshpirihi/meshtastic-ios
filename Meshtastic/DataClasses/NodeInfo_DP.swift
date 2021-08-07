@@ -74,7 +74,7 @@ class NodeInfo_DP
     /// - Parameters:
     ///     - nodeInfo: The node data object
     ///
-    public func dbWrite(_ nodeInfo: NodeInfo_DO)
+    public func dbWrite(_ nodeInfo: NodeInfo)
     {
         let index = getNodeIdx(nodeInfo.num)
         if (index > -1) //Update
@@ -94,20 +94,20 @@ class NodeInfo_DP
     ///     - user: The user data object
     ///     - nodeId: Id of the enclosing node object
     ///
-    public func dbWrite(_ user: User_DO, nodeId: UInt32)
+    public func dbWrite(_ user: User, nodeId: UInt32)
     {
         let index = getNodeIdx(nodeId)
         if (index > -1) //Update
         {
             DataBase.shared.nodeArray[index].user = user
-            DataBase.shared.nodeArray[index].hasUser = true
+            //DataBase.shared.nodeArray[index].hasUser = true
         }
         else //Add
         {
-            let nodeInfo = NodeInfo_DO()
+            var nodeInfo = NodeInfo()
             nodeInfo.num = nodeId
             nodeInfo.user = user
-            nodeInfo.hasUser = true
+            //nodeInfo.hasUser = true
             DataBase.shared.nodeArray += [nodeInfo]
         }
     }
@@ -120,20 +120,20 @@ class NodeInfo_DP
     ///     - position: The position data object
     ///     - nodeId: Id of the enclosing node object
     ///
-    public func dbWrite(_ position: Position_DO, nodeId: UInt32)
+    public func dbWrite(_ position: Position, nodeId: UInt32)
     {
         let index = getNodeIdx(nodeId)
         if (index > -1) //Update
         {
             DataBase.shared.nodeArray[index].position = position
-            DataBase.shared.nodeArray[index].hasPosition = true
+            //DataBase.shared.nodeArray[index].hasPosition = true
         }
         else //Add
         {
-            let nodeInfo = NodeInfo_DO()
+            var nodeInfo = NodeInfo()
             nodeInfo.num = nodeId
             nodeInfo.position = position
-            nodeInfo.hasPosition = true
+            //nodeInfo.hasPosition = true
             DataBase.shared.nodeArray += [nodeInfo]
         }        
     }
@@ -146,7 +146,7 @@ class NodeInfo_DP
     ///
     /// - Returns: The node object or nil if it was not found
     ///
-    public func dbRead( nodeId: UInt32) -> NodeInfo_DO?
+    public func dbRead( nodeId: UInt32) -> NodeInfo?
     {
         // Check if node is already in the array.
         for element in DataBase.shared.nodeArray
@@ -164,7 +164,7 @@ class NodeInfo_DP
     ///
     /// - Returns: A node object or nil if it was not found
     ///
-    public func getMyNodeObject() -> NodeInfo_DO?
+    public func getMyNodeObject() -> NodeInfo?
     {
         let myNodeNumber = DataBase.shared.myNodeInfo_DO.myNodeNum
         let myNodeObject = dbRead(nodeId: myNodeNumber)

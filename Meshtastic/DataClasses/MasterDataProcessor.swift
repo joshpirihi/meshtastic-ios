@@ -24,10 +24,10 @@ class MasterDataProcessor
     // MARK: - public class variables
     //---------------------------------------------------------------------------------------
 
-    public var radio: RadioConfig_DO
-    public var preferences: UserPreferences_DO
-    public var channelSettings: ChannelSettings_DO
-    public var myInfo: MyNodeInfo_DO
+    public var radio: RadioConfig
+    //public var preferences: UserPreferences
+    public var channelSettings: ChannelSettings
+    public var myInfo: MyNodeInfo
 
     //---------------------------------------------------------------------------------------
 
@@ -38,10 +38,10 @@ class MasterDataProcessor
         nodeInfo_DP = NodeInfo_DP()
         myNodeInfo_DP = MyNodeInfo_DP()
 
-        radio = RadioConfig_DO()
-        preferences = UserPreferences_DO()
-        channelSettings = ChannelSettings_DO()
-        myInfo = MyNodeInfo_DO()
+        radio = RadioConfig()
+        //preferences = UserPreferences()
+        channelSettings = ChannelSettings()
+        myInfo = MyNodeInfo()
     }
     
     
@@ -58,11 +58,11 @@ class MasterDataProcessor
         var pbChannelSettings: ChannelSettings!
         pbChannelSettings = ChannelSettings()
         
-        pbChannelSettings.bandwidth = self.radio.channelSettings.bandwidth
-        pbChannelSettings.channelNum = self.radio.channelSettings.channelNum
-        pbChannelSettings.codingRate = self.radio.channelSettings.codingRate
-        pbChannelSettings.spreadFactor = self.radio.channelSettings.spreadFactor
-        switch self.radio.channelSettings.modemConfig
+        pbChannelSettings.bandwidth = self.channelSettings.bandwidth
+        pbChannelSettings.channelNum = self.channelSettings.channelNum
+        pbChannelSettings.codingRate = self.channelSettings.codingRate
+        pbChannelSettings.spreadFactor = self.channelSettings.spreadFactor
+        /*switch self.channelSettings.modemConfig
         {
             case Enumerations.ModemConfig.bw125Cr45Sf128 :
                 pbChannelSettings.modemConfig = ChannelSettings.ModemConfig.bw125Cr45Sf128
@@ -77,10 +77,10 @@ class MasterDataProcessor
             default:
                 //pbChannelSettings.modemConfig = ChannelSettings.ModemConfig.bw125Cr48Sf4096
                 break
-        }
-        pbChannelSettings.name = self.radio.channelSettings.name
-        pbChannelSettings.psk = self.radio.channelSettings.psk
-        pbChannelSettings.txPower = self.radio.channelSettings.txPower
+        }*/
+        pbChannelSettings.name = self.channelSettings.name
+        pbChannelSettings.psk = self.channelSettings.psk
+        pbChannelSettings.txPower = self.channelSettings.txPower
         
         return pbChannelSettings
     }
@@ -99,7 +99,7 @@ class MasterDataProcessor
         pbUserPreferences.lsSecs = self.radio.preferences.lsSecs
         pbUserPreferences.meshSdsTimeoutSecs = self.radio.preferences.meshSdsTimeoutSecs
         pbUserPreferences.minWakeSecs = self.radio.preferences.minWakeSecs
-        pbUserPreferences.numMissedToFail = self.radio.preferences.numMissedToFail
+        //pbUserPreferences.numMissedToFail = self.radio.preferences.numMissedToFail
         pbUserPreferences.phoneSdsTimeoutSec = self.radio.preferences.phoneSdsTimeoutSec
         pbUserPreferences.phoneTimeoutSecs = self.radio.preferences.phoneTimeoutSecs
         pbUserPreferences.positionBroadcastSecs = self.radio.preferences.positionBroadcastSecs
@@ -115,7 +115,7 @@ class MasterDataProcessor
     }
     
     
-    private func user_write2ProtoBuf(user_DO: User_DO) -> User
+    private func user_write2ProtoBuf(user_DO: User) -> User
     {
         var user: User = User()
         user.id = user_DO.id
@@ -146,28 +146,29 @@ class MasterDataProcessor
     /// Parse the decoded protoBuf structure "FromRadio" and write the data into our own data classes
     public func parseFromRadioPb(fromRadioDecoded: FromRadio)
     {
-        var pbDataType: FromRadio.OneOf_Variant
-        if (fromRadioDecoded.variant == nil)
+        var pbDataType: FromRadio.OneOf_PayloadVariant
+        if (fromRadioDecoded.payloadVariant == nil)
         {
             return
         }
-        pbDataType = fromRadioDecoded.variant!
-        let nodeInfo = NodeInfo_DO()
-        let user = User_DO()
-        let position = Position_DO()
+        pbDataType = fromRadioDecoded.payloadVariant!
+        var nodeInfo = NodeInfo()
+        var user = User()
+        var position = Position()
         
-        if (pbDataType == FromRadio.OneOf_Variant.packet(fromRadioDecoded.packet))
+        if (pbDataType == FromRadio.OneOf_PayloadVariant.packet(fromRadioDecoded.packet))
         {
             print("######## MeshPacket ########")
             let meshPacket = fromRadioDecoded.packet
-            let mpDataType = meshPacket.payload
-            if (mpDataType == MeshPacket.OneOf_Payload.decoded(meshPacket.decoded))
+            let mpDataType = meshPacket.payloadVariant//.payload
+            //if meshPacket.decoded.portnum == PortNum.positionApp
+            if (mpDataType == MeshPacket.OneOf_PayloadVariant.decoded(meshPacket.decoded))
             {
                 print("######## MeshPacket.Decoded ########")
                 let subPacket = meshPacket.decoded
                 let sbDataType = subPacket.payload
-                let sbAckType = subPacket.ack
-                if (sbDataType == SubPacket.OneOf_Payload.position(subPacket.position))
+                //let sbAckType = subPacket.
+                /*if (sbDataType == MeshPacket.OneOf_PayloadVariant.position(subPacket.position))
                 {
                     print("######## MeshPacket.Decoded.SubPacket.Position ########")
                     position.latitudeI = subPacket.position.latitudeI
@@ -178,10 +179,11 @@ class MasterDataProcessor
                     
                     self.nodeInfo_DP.dbWrite(position, nodeId: meshPacket.from)
                 }
-                else if (sbDataType == SubPacket.OneOf_Payload.data(subPacket.data))
-                {
+                else*/
+                //if (sbDataType == MeshPacket.OneOf_PayloadVariant.data(subPacket.data))
+                //{
                     print("######## MeshPacket.Decoded.SubPacket.DataMessage ########")
-                    switch subPacket.data.portnum
+                    switch subPacket.portnum
                     {
                         case PortNum.textMessageApp:
                             print("######## From TextMessageApp ########")
@@ -205,16 +207,16 @@ class MasterDataProcessor
                                 chatMessage.toUserID = nodeReceiver?.user.id ?? ""
                                 chatMessage.toUserLongName = nodeReceiver?.user.longName ?? ""
                             }
-                            chatMessage.messagePayload = String(decoding: subPacket.data.payload, as: UTF8.self)
+                            chatMessage.messagePayload = String(decoding: subPacket.payload, as: UTF8.self)
                             chatMessage_DP.dbWrite(chatMessage)
                             
                             MasterViewController.shared.chatMessageUpdated()
-                            print(String(decoding: subPacket.data.payload, as: UTF8.self))
+                            print(String(decoding: subPacket.payload, as: UTF8.self))
 
                         case PortNum.nodeinfoApp:
                             print("######## From NodeInfoApp ########")
                             var decodedInfo = User()
-                            decodedInfo = try! User(serializedData: subPacket.data.payload)
+                            decodedInfo = try! User(serializedData: subPacket.payload)
                             user.id = decodedInfo.id
                             user.longName = decodedInfo.longName
                             user.shortName = decodedInfo.shortName
@@ -229,7 +231,7 @@ class MasterDataProcessor
                         case PortNum.positionApp:
                             print("######## From PositionApp ########")
                             var decodedPosition = Position()
-                            decodedPosition = try! Position(serializedData: subPacket.data.payload)
+                            decodedPosition = try! Position(serializedData: subPacket.payload)
                             position.latitudeI = decodedPosition.latitudeI
                             position.longitudeI = decodedPosition.longitudeI
                             position.altitude = decodedPosition.altitude
@@ -238,6 +240,7 @@ class MasterDataProcessor
                             
                             self.nodeInfo_DP.dbWrite(position, nodeId: meshPacket.from)
                             MasterViewController.shared.DebugPrint2View(text: "*** decoded:\n" + decodedPosition.debugDescription)
+                            MasterViewController.shared.locationUpdated()
                             print("position:")
                             print(decodedPosition)
                             
@@ -245,7 +248,7 @@ class MasterDataProcessor
                             break
                     }
                 }
-                else if (sbDataType == SubPacket.OneOf_Payload.user(subPacket.user))
+                /*else if (sbDataType == SubPacket.OneOf_Payload.user(subPacket.user))
                 {
                     print("######## MeshPacket.Decoded.SubPacket.User ########")
                     user.id = subPacket.user.id
@@ -256,8 +259,9 @@ class MasterDataProcessor
                     self.nodeInfo_DP.dbWrite(user, nodeId: meshPacket.from)
                     MasterViewController.shared.userUpdated(user: user)
 
-                }
-                else if (sbAckType == SubPacket.OneOf_Ack.successID(subPacket.successID))
+                }*/
+                //else
+                /*if (sbAckType == SubPacket.OneOf_Ack.successID(subPacket.successID))
                 {
                     print("######## MeshPacket.Decoded.SubPacket.Ack.Success ########")
                     print(subPacket.successID)
@@ -266,19 +270,19 @@ class MasterDataProcessor
                 {
                     print("######## MeshPacket.Decoded.SubPacket.Ack.Fail ########")
                     print(subPacket.failID)
-                }
+                }*/
 
                 
                 
 
-            }
+            /*}
             else if (mpDataType == MeshPacket.OneOf_Payload.encrypted(meshPacket.encrypted))
             {
                 print("######## MeshPacket.Encrypted ########")
                 // We have nothing to do here
-            }
+            }*/
         }
-        else if (pbDataType == FromRadio.OneOf_Variant.radio(fromRadioDecoded.radio) )
+        /*else if (pbDataType == FromRadio.OneOf_PayloadVariant.radio(fromRadioDecoded.radio) )
         {
             print("######## RadioConfig ########")
             self.radio.hasPreferences = fromRadioDecoded.radio.hasPreferences
@@ -331,15 +335,16 @@ class MasterDataProcessor
                 self.radio.channelSettings = self.channelSettings
                 MasterViewController.shared.updateFromDevice(radioConfig: self.radio)
             }
-        }
-        else if (pbDataType == FromRadio.OneOf_Variant.nodeInfo(fromRadioDecoded.nodeInfo) )
+        }*/
+        else if (pbDataType == FromRadio.OneOf_PayloadVariant.nodeInfo(fromRadioDecoded.nodeInfo) )
         {
             print("######## NodeInfo ########")
-            nodeInfo.num = fromRadioDecoded.nodeInfo.num
-            nodeInfo.hasUser = fromRadioDecoded.nodeInfo.hasUser
-            nodeInfo.hasPosition = fromRadioDecoded.nodeInfo.hasPosition
-            nodeInfo.snr = fromRadioDecoded.nodeInfo.snr
-            nodeInfo.nextHop = fromRadioDecoded.nodeInfo.nextHop
+            nodeInfo = fromRadioDecoded.nodeInfo
+            //nodeInfo.num = fromRadioDecoded.nodeInfo.num
+            //nodeInfo.hasUser = fromRadioDecoded.nodeInfo.hasUser
+            //nodeInfo.hasPosition = fromRadioDecoded.nodeInfo.hasPosition
+            //nodeInfo.snr = fromRadioDecoded.nodeInfo.snr
+            //nodeInfo.nextHop = fromRadioDecoded.nodeInfo.nextHop
             if (nodeInfo.hasUser)
             {
                 user.id = fromRadioDecoded.nodeInfo.user.id
@@ -359,11 +364,13 @@ class MasterDataProcessor
                 nodeInfo.position = position
             }
             self.nodeInfo_DP.dbWrite(nodeInfo)
+            MasterViewController.shared.locationUpdated()
         }
-        else if (pbDataType == FromRadio.OneOf_Variant.myInfo(fromRadioDecoded.myInfo) )
+        else if (pbDataType == FromRadio.OneOf_PayloadVariant.myInfo(fromRadioDecoded.myInfo) )
         {
             print("######## MyInfo ########")
-            self.myInfo.myNodeNum = fromRadioDecoded.myInfo.myNodeNum
+            self.myInfo = fromRadioDecoded.myInfo
+            /*self.myInfo.myNodeNum = fromRadioDecoded.myInfo.myNodeNum
             self.myInfo.hasGps_p = fromRadioDecoded.myInfo.hasGps_p
             self.myInfo.numChannels = fromRadioDecoded.myInfo.numChannels
             self.myInfo.region = fromRadioDecoded.myInfo.region
@@ -376,20 +383,21 @@ class MasterDataProcessor
             self.myInfo.currentPacketID = fromRadioDecoded.myInfo.currentPacketID
             self.myInfo.nodeNumBits = fromRadioDecoded.myInfo.nodeNumBits
             self.myInfo.messageTimeoutMsec = fromRadioDecoded.myInfo.messageTimeoutMsec
-            self.myInfo.minAppVersion = fromRadioDecoded.myInfo.minAppVersion
+            self.myInfo.minAppVersion = fromRadioDecoded.myInfo.minAppVersion*/
             
             self.myNodeInfo_DP.dbWrite(self.myInfo)
+            MasterViewController.shared.locationUpdated()
         }
-        else if (pbDataType == FromRadio.OneOf_Variant.configCompleteID(fromRadioDecoded.configCompleteID) )
+        else if (pbDataType == FromRadio.OneOf_PayloadVariant.configCompleteID(fromRadioDecoded.configCompleteID) )
         {
             print("######## ConfigCompleteID ########")
         }
-        else if (pbDataType == FromRadio.OneOf_Variant.rebooted(fromRadioDecoded.rebooted) )
+        else if (pbDataType == FromRadio.OneOf_PayloadVariant.rebooted(fromRadioDecoded.rebooted) )
         {
             print("######## Rebooted ########")
         }
-    }
     
+    }
     
     /// Called by MasterViewController after the user has changed a radio-config value
     ///
@@ -397,7 +405,7 @@ class MasterDataProcessor
     ///     - dataFieldName: The name of the datafield whose name was changed
     ///     - value: The new Value of the datafield
     ///
-    public func radioConfig_setValue(dataFieldName: String, value: String, currentRaidioConfig: RadioConfig_DO)
+    public func radioConfig_setValue(dataFieldName: String, value: String, currentRaidioConfig: RadioConfig)
     {
         self.radio = currentRaidioConfig
         
@@ -407,8 +415,8 @@ class MasterDataProcessor
                 self.radio.preferences.positionBroadcastSecs = UInt32(value) ?? 0
             case "preferences.sendOwnerInterval":
                 self.radio.preferences.positionBroadcastSecs = UInt32(value) ?? 0
-            case "preferences.numMissedToFail":
-                self.radio.preferences.numMissedToFail = UInt32(value) ?? 0
+            //case "preferences.numMissedToFail":
+            //    self.radio.preferences.numMissedToFail = UInt32(value) ?? 0
             case "preferences.waitBluetoothSecs":
                 self.radio.preferences.waitBluetoothSecs = UInt32(value) ?? 0
             case "preferences.screenOnSecs":
@@ -434,8 +442,8 @@ class MasterDataProcessor
             case "preferences.ignoreIncoming":
                 break
             case "channelSettings.txPower":
-                self.radio.channelSettings.txPower = Int32(value) ?? 0
-            case "channelSettings.modemConfig":
+                self.channelSettings.txPower = Int32(value) ?? 0
+            /*case "channelSettings.modemConfig":
                 switch value
                 {
                     case "bw125Cr45Sf128":
@@ -451,20 +459,20 @@ class MasterDataProcessor
                     default:
                         //self.radio.channelSettings.modemConfig = Enumerations.ModemConfig.bw125Cr45Sf128
                         break
-                }
+                }*/
             case "channelSettings.bandwidth":
-                self.radio.channelSettings.bandwidth = UInt32(value) ?? 0
+                self.channelSettings.bandwidth = UInt32(value) ?? 0
             case "channelSettings.spreadFactor":
-                self.radio.channelSettings.spreadFactor = UInt32(value) ?? 0
+                self.channelSettings.spreadFactor = UInt32(value) ?? 0
             case "channelSettings.codingRate":
-                self.radio.channelSettings.codingRate = UInt32(value) ?? 0
+                self.channelSettings.codingRate = UInt32(value) ?? 0
             case "channelSettings.channelNum":
-                self.radio.channelSettings.channelNum = UInt32(value) ?? 0
+                self.channelSettings.channelNum = UInt32(value) ?? 0
             case "channelSettings.psk":
-                self.radio.channelSettings.psk = value.hexadecimal ?? Data("".utf8)
+                self.channelSettings.psk = value.hexadecimal ?? Data("".utf8)
                 //self.radio.channelSettings.psk = Data(value.utf8)
             case "channelSettings.name":
-                self.radio.channelSettings.name = value
+                self.channelSettings.name = value
             default:
                 break
         }
@@ -485,14 +493,14 @@ class MasterDataProcessor
     ///     - codingRate: LoRa coding rate
     ///     - currentRadioConfig: the raidio config dataobject, containig the current (old) data
     ///
-    public func radioConfig_setLoRaModulation(bandwidth: String, spreadingFactor: String, codingRate: String, currentRadioConfig: RadioConfig_DO)
+    public func radioConfig_setLoRaModulation(bandwidth: String, spreadingFactor: String, codingRate: String, currentRadioConfig: RadioConfig)
     {
         self.radio = currentRadioConfig
         
-        self.radio.channelSettings.bandwidth = UInt32(bandwidth) ?? 0
-        self.radio.channelSettings.spreadFactor = UInt32(spreadingFactor) ?? 0
-        self.radio.channelSettings.codingRate = UInt32(codingRate) ?? 0
-        self.radio.channelSettings.modemConfig = Enumerations.ModemConfig.UNRECOGNIZED(0)
+        self.channelSettings.bandwidth = UInt32(bandwidth) ?? 0
+        self.channelSettings.spreadFactor = UInt32(spreadingFactor) ?? 0
+        self.channelSettings.codingRate = UInt32(codingRate) ?? 0
+        self.channelSettings.modemConfig = ChannelSettings.ModemConfig.UNRECOGNIZED(0)
 
         let pbChannelSettings = channelSettings_write2ProtoBuf()
         let pbUserPreferences = preferences_write2ProtoBuf()
@@ -507,15 +515,15 @@ class MasterDataProcessor
     /// - Parameters:
     ///     - myUser_DO: The user data object, containing the updated data
     ///
-    public func setOwner(myUser_DO: User_DO)
+    public func setOwner(myUser: User)
     {
         // Update database
-        let myNode: NodeInfo_DO = nodeInfo_DP.getMyNodeObject()!
+        let myNode: NodeInfo = nodeInfo_DP.getMyNodeObject()!
         let nodeInfo_DP: NodeInfo_DP = NodeInfo_DP()
-        nodeInfo_DP.dbWrite(myUser_DO, nodeId: myNode.num)
+        nodeInfo_DP.dbWrite(myUser, nodeId: myNode.num)
         
         // Set to device
-        let user = self.user_write2ProtoBuf(user_DO: myUser_DO)
+        let user = self.user_write2ProtoBuf(user_DO: myUser)
         BLEConroller.shared.setOwner(myUser: user)
     }
     

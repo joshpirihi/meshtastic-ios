@@ -73,7 +73,8 @@ class tvcConfig: UITableViewController
     // MARK: - public class variables
     //---------------------------------------------------------------------------------------
 
-    public var radioConfig: RadioConfig_DO = RadioConfig_DO()
+    public var radioConfig: RadioConfig = RadioConfig()
+    public var channelSettings: ChannelSettings = ChannelSettings()
     public var needsReload: Bool = false
 
     //---------------------------------------------------------------------------------------
@@ -116,7 +117,7 @@ class tvcConfig: UITableViewController
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cellConfigText", for: indexPath) as! cellEditText
                 cell.lblCaption.text = "Num Missed To Fail"
-                cell.lblValue.text = String(self.radioConfig.preferences.numMissedToFail)
+                //cell.lblValue.text = String(self.radioConfig.preferences.numMissedToFail)
                 cell.lblInfo.text = "If we miss this many owner messages from a node, we declare the node offline (defaults to 3 - to allow for some lost packets)"
                 cell.datafieldName = "preferences.numMissedToFail"
                 return cell
@@ -243,7 +244,7 @@ class tvcConfig: UITableViewController
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cellConfigText", for: indexPath) as! cellEditText
                 cell.lblCaption.text = "Tx Power (dBm)"
-                cell.lblValue.text = String(self.radioConfig.channelSettings.txPower)
+                cell.lblValue.text = String(self.channelSettings.txPower)
                 cell.lblInfo.text = "If zero then, use default max legal continuous power (ie. something that won't burn out the radio hardware). In most cases you should use zero here."
                 cell.datafieldName = "channelSettings.txPower"
                 return cell
@@ -252,7 +253,7 @@ class tvcConfig: UITableViewController
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cellConfigText", for: indexPath) as! cellEditText
                 cell.lblCaption.text = "Modem Config"
-                cell.lblValue.text = self.radioConfig.channelSettings.modemConfig.description
+                cell.lblValue.text = String(self.channelSettings.modemConfig.rawValue)
                 cell.lblInfo.text = "Note: This is the 'old' mechanism for specifying channel parameters. Either modem_config or bandwidth/spreading/coding will be specified - NOT BOTH. As a heuristic: If bandwidth is specified, do not use modem_config. Because protobufs take ZERO space when the value is zero this works out nicely.\n\nbw125Cr45Sf128  (medium range)\n\nbw500Cr45Sf128  (Fast+short range)\n\nbw31_25Cr48Sf512  (Slow+long range)\n\nbw125Cr48Sf4096  (Slow+long range)"
                 cell.datafieldName = "channelSettings.modemConfig"
                 return cell
@@ -261,7 +262,7 @@ class tvcConfig: UITableViewController
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cellConfigText", for: indexPath) as! cellEditText
                 cell.lblCaption.text = "Bandwidth"
-                cell.lblValue.text = String(self.radioConfig.channelSettings.bandwidth)
+                cell.lblValue.text = String(self.channelSettings.bandwidth)
                 cell.lblInfo.text = "Bandwidth in MHz Certain bandwidth numbers are 'special' and will be converted to the appropriate floating point value: 31 -> 31.25MHz"
                 cell.datafieldName = "channelSettings.bandwidth"
                 return cell
@@ -270,7 +271,7 @@ class tvcConfig: UITableViewController
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cellConfigText", for: indexPath) as! cellEditText
                 cell.lblCaption.text = "Spread Factor"
-                cell.lblValue.text = String(self.radioConfig.channelSettings.spreadFactor)
+                cell.lblValue.text = String(self.channelSettings.spreadFactor)
                 cell.lblInfo.text = "A number from 7 to 12. Indicates number of chirps per symbol as 1<<spread_factor."
                 cell.datafieldName = "channelSettings.spreadFactor"
                 return cell
@@ -279,7 +280,7 @@ class tvcConfig: UITableViewController
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cellConfigText", for: indexPath) as! cellEditText
                 cell.lblCaption.text = "Coding Rate"
-                cell.lblValue.text = String(self.radioConfig.channelSettings.codingRate)
+                cell.lblValue.text = String(self.channelSettings.codingRate)
                 cell.lblInfo.text = "The denominator of the coding rate. Ie for 4/8, the value is 8. 4/5 the value is 5."
                 cell.datafieldName = "channelSettings.codingRate"
                 return cell
@@ -288,7 +289,7 @@ class tvcConfig: UITableViewController
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cellConfigText", for: indexPath) as! cellEditText
                 cell.lblCaption.text = "Channel Num"
-                cell.lblValue.text = String(self.radioConfig.channelSettings.channelNum)
+                cell.lblValue.text = String(self.channelSettings.channelNum)
                 cell.lblInfo.text = "A channel number within EU433 band (433.050 to 434.790 MHz)\n\n1 = 433.175 MHz\n2 = 433.375 MHz\n3 = 433.575 MHz\n4 = 433.775 MHz\n5 = 433.975 MHz\n6 = 434.175 MHz\n7 = 434.375 MHz"
                 cell.datafieldName = "channelSettings.channelNum"
                 return cell
@@ -297,7 +298,7 @@ class tvcConfig: UITableViewController
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cellConfigText", for: indexPath) as! cellEditText
                 cell.lblCaption.text = "PSK"
-                cell.lblValue.text = self.radioConfig.channelSettings.psk.hexDescription
+                cell.lblValue.text = self.channelSettings.psk.hexDescription
                 //cell.lblValue.text = String(decoding: self.radioConfig.channelSettings.psk, as: UTF8.self)
                 cell.lblInfo.text = "A simple preshared key for now for crypto.  Must be either 0 bytes (no crypto), 16 bytes (AES128), or 32 bytes (AES256)"
                 cell.datafieldName = "channelSettings.psk"
@@ -307,7 +308,7 @@ class tvcConfig: UITableViewController
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cellConfigText", for: indexPath) as! cellEditText
                 cell.lblCaption.text = "Name"
-                cell.lblValue.text = self.radioConfig.channelSettings.name
+                cell.lblValue.text = self.channelSettings.name
                 cell.lblInfo.text = "A SHORT name that will be packed into the URL.  Less than 12 bytes. Something for end users to call the channel"
                 cell.datafieldName = "channelSettings.name"
                 return cell
@@ -505,9 +506,9 @@ class tvcConfig: UITableViewController
          if(segue.identifier == "SegueShowLoRaModulationConfig")
          {
              let vcEdit = segue.destination as! vcLoRaModulationConfig
-             vcEdit.CellData.bandWidth = String(self.radioConfig.channelSettings.bandwidth)
-             vcEdit.CellData.spreadingFactor = String(self.radioConfig.channelSettings.spreadFactor)
-             vcEdit.CellData.codingRate = String(self.radioConfig.channelSettings.codingRate)
+             vcEdit.CellData.bandWidth = String(self.channelSettings.bandwidth)
+             vcEdit.CellData.spreadingFactor = String(self.channelSettings.spreadFactor)
+             vcEdit.CellData.codingRate = String(self.channelSettings.codingRate)
          }
 
      }

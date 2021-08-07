@@ -24,9 +24,9 @@ class DataBase
     // MARK: - public class variables
     //---------------------------------------------------------------------------------------
 
-    public var nodeInfo_DO: NodeInfo_DO
-    public var myNodeInfo_DO: MyNodeInfo_DO
-    public var nodeArray = [NodeInfo_DO]()
+    public var nodeInfo_DO: NodeInfo
+    public var myNodeInfo_DO: MyNodeInfo
+    public var nodeArray = [NodeInfo]()
     public var chatMessageArray = [ChatMessage_DO]()
     public var broadcastNodeId: UInt32 = 4294967295
     
@@ -36,8 +36,8 @@ class DataBase
     // MARK: - Initialization
     private init()
     {
-        self.nodeInfo_DO = NodeInfo_DO()
-        self.myNodeInfo_DO = MyNodeInfo_DO()
+        self.nodeInfo_DO = NodeInfo()
+        self.myNodeInfo_DO = MyNodeInfo()
     }
         
 

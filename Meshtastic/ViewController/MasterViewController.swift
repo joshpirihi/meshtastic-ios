@@ -23,6 +23,7 @@ class MasterViewController
     var tbcDeviceDetails: tbcDeviceDetails!
     var tvcChats: tvcChats!
     var vcChat: vcChat!
+    var mapVC: MapViewController?
     var dialogMessage: UIAlertController
     var currentViewController: UIViewController!
     var masterDataProcessor: MasterDataProcessor
@@ -62,6 +63,7 @@ class MasterViewController
             {
                 self.tvcChats.Add_Update_Item()
             }
+            self.mapVC?.displayNodes()
             show_tbcDeviceDetails()
         }
     }
@@ -141,7 +143,7 @@ class MasterViewController
     /// - Parameters:
     ///     - radioConfig: the dataobject that holds the updated data
     ///
-    public func updateFromDevice(radioConfig: RadioConfig_DO)
+    public func updateFromDevice(radioConfig: RadioConfig)
     {
         self.tbcDeviceDetails.refreshRadioConfigData(radioConfig: radioConfig)
     }
@@ -149,7 +151,7 @@ class MasterViewController
     
     /// Called by MasterDataProcessor after user has been updated by device
     ///
-    public func userUpdated(user: User_DO)
+    public func userUpdated(user: User)
     {
         if (self.tvcChats != nil)
         {
@@ -162,6 +164,8 @@ class MasterViewController
                 self.tvcChats.needsReload = true
             }
         }
+        
+        self.mapVC?.displayNodes()
     }
 
     
@@ -169,7 +173,7 @@ class MasterViewController
     ///
     public func nodeUpdated()
     {
-        
+        self.mapVC?.displayNodes()
     }
     
     
@@ -188,6 +192,10 @@ class MasterViewController
                 self.vcChat.needsReload = true
             }
         }
+    }
+    
+    public func locationUpdated() {
+        self.mapVC?.displayNodes()
     }
     
     
@@ -237,7 +245,7 @@ class MasterViewController
     ///     - value: The new Value of the datafield
     ///     - currentRaidioConfig: The config data to be updated
     ///
-    public func radioConfigValueUpdated(dataFieldName: String, value: String, currentRaidioConfig: RadioConfig_DO)
+    public func radioConfigValueUpdated(dataFieldName: String, value: String, currentRaidioConfig: RadioConfig)
     {
         masterDataProcessor.radioConfig_setValue(dataFieldName: dataFieldName, value: value, currentRaidioConfig: currentRaidioConfig)
     }
@@ -249,7 +257,7 @@ class MasterViewController
     ///     - dataFieldName: The name of the datafield whose name was changed
     ///     - value: The new Value of the datafield
     ///
-    public func radioConfigLoRaModulationUpdated(bandwidth: String, spreadingFactor: String, codingRate: String, currentRadioConfig: RadioConfig_DO)
+    public func radioConfigLoRaModulationUpdated(bandwidth: String, spreadingFactor: String, codingRate: String, currentRadioConfig: RadioConfig)
     {
         masterDataProcessor.radioConfig_setLoRaModulation(bandwidth: bandwidth, spreadingFactor: spreadingFactor, codingRate: codingRate, currentRadioConfig: currentRadioConfig)
     }
@@ -260,9 +268,9 @@ class MasterViewController
     /// - Parameters:
     ///     - user_DO: The user data object containig the updated data
     ///
-    public func myUserConfigUpdated(user_DO: User_DO)
+    public func myUserConfigUpdated(user: User)
     {
-        masterDataProcessor.setOwner(myUser_DO: user_DO)
+        masterDataProcessor.setOwner(myUser: user)
     }
     
     //---------------------------------------------------------------------------------------

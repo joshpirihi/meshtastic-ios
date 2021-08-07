@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="h5L-TE-WW7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="h5L-TE-WW7">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -37,7 +37,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="FJZ-vn-E8b" detailTextLabel="afe-82-2d4" style="IBUITableViewCellStyleValue1" id="qtg-So-hvs">
-                                <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
+                                <rect key="frame" x="20" y="49.5" width="374" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qtg-So-hvs" id="ydi-Et-P81">
                                     <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -136,7 +136,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="mfE-We-ElZ">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mfE-We-ElZ" id="ceh-KD-G3j">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -156,7 +156,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9iJ-Dr-CRr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="712" y="866"/>
+            <point key="canvasLocation" x="693" y="968"/>
         </scene>
         <!--vcMyUserConfig-->
         <scene sceneID="l0X-5a-Mkt">
@@ -353,7 +353,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="IpY-7V-Tkv" detailTextLabel="rNj-V7-nip" style="IBUITableViewCellStyleValue1" id="nUf-ha-yPT">
-                                        <rect key="frame" x="0.0" y="28" width="382" height="44"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="382" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="nUf-ha-yPT" id="U4H-gs-mxJ">
                                             <rect key="frame" x="0.0" y="0.0" width="382" height="44"/>
@@ -702,20 +702,54 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
+                        <segue destination="o8T-2T-CSX" kind="presentation" identifier="SegueShowMyUserConfig" id="Oyz-ez-Gzb"/>
                         <segue destination="YST-Kk-4GQ" kind="relationship" relationship="viewControllers" id="0gI-6K-1oq"/>
+                        <segue destination="xaY-tZ-fnO" kind="relationship" relationship="viewControllers" id="cNT-yM-YKt"/>
                         <segue destination="AeW-tu-3HS" kind="relationship" relationship="viewControllers" id="Gqi-7z-lj2"/>
                         <segue destination="1VV-M0-Wfu" kind="relationship" relationship="viewControllers" id="Ql4-py-aPH"/>
-                        <segue destination="o8T-2T-CSX" kind="presentation" identifier="SegueShowMyUserConfig" id="Oyz-ez-Gzb"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eHA-kb-BIz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-320" y="288"/>
         </scene>
+        <!--Map-->
+        <scene sceneID="Eso-so-IUl">
+            <objects>
+                <viewController title="Map" id="xaY-tZ-fnO" customClass="MapViewController" customModule="Meshtastic" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Xc2-4B-z1K">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="9bS-Uy-L18">
+                                <rect key="frame" x="0.0" y="88" width="414" height="676"/>
+                            </mapView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="oCL-9P-ifL"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="9bS-Uy-L18" firstAttribute="leading" secondItem="oCL-9P-ifL" secondAttribute="leading" id="68p-GQ-ojE"/>
+                            <constraint firstItem="9bS-Uy-L18" firstAttribute="bottom" secondItem="oCL-9P-ifL" secondAttribute="bottom" id="HGM-gB-keM"/>
+                            <constraint firstItem="9bS-Uy-L18" firstAttribute="trailing" secondItem="oCL-9P-ifL" secondAttribute="trailing" id="UWN-hu-Li6"/>
+                            <constraint firstItem="9bS-Uy-L18" firstAttribute="top" secondItem="oCL-9P-ifL" secondAttribute="top" id="jgY-Rz-MKC"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Map" image="location.viewfinder" catalog="system" id="Oqr-6E-UCI"/>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="mapView" destination="9bS-Uy-L18" id="M1b-nW-G3U"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aZs-fK-2OU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="711.59420289855075" y="279.91071428571428"/>
+        </scene>
     </scenes>
     <resources>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="ladybug" catalog="system" width="128" height="128"/>
+        <image name="location.viewfinder" catalog="system" width="128" height="115"/>
         <image name="message" catalog="system" width="128" height="113"/>
         <image name="paperplane.fill" catalog="system" width="128" height="118"/>
         <systemColor name="labelColor">

@@ -46,12 +46,12 @@ class vcMyUserConfig: UIViewController
     
     @IBAction func btnSave_TouchUp(_ sender: Any)
     {
-        let myUser: User_DO = User_DO()
+        var myUser: User = User()
         myUser.id = self.txtID.text!
         myUser.shortName = self.txtShortName.text!
         myUser.longName = self.txtLongName.text!
         myUser.macaddr = self.txtMacAddress.text!.hexadecimal ?? Data("".utf8)
-        MasterViewController.shared.myUserConfigUpdated(user_DO: myUser)
+        MasterViewController.shared.myUserConfigUpdated(user: myUser)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -86,7 +86,7 @@ class vcMyUserConfig: UIViewController
     
     override func viewWillAppear(_ animated: Bool)
     {
-        let myNode: NodeInfo_DO = nodeInfo_DP.getMyNodeObject()!
+        let myNode: NodeInfo = nodeInfo_DP.getMyNodeObject()!
         
         self.txtID.text = myNode.user.id
         self.txtShortName.text = myNode.user.shortName

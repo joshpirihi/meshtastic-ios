@@ -47,7 +47,7 @@ class MyNodeInfo_DP
     /// - Parameters:
     ///     - myNodeInfo: The myNodeInfo data object
     ///
-    public func dbWrite(_ myNodeInfo: MyNodeInfo_DO)
+    public func dbWrite(_ myNodeInfo: MyNodeInfo)
     {
         DataBase.shared.myNodeInfo_DO = myNodeInfo
     }
@@ -57,7 +57,7 @@ class MyNodeInfo_DP
     ///
     /// - Returns: The myNodeInfo object
     ///
-    public func dbRead() -> MyNodeInfo_DO?
+    public func dbRead() -> MyNodeInfo?
     {
         return DataBase.shared.myNodeInfo_DO
     }

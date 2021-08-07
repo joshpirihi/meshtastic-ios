@@ -14,7 +14,7 @@ class NodeInfo_DO
     var num: UInt32
     var user: User_DO
     var hasUser: Bool
-    var position: Position_DO
+    var position: Position
     var hasPosition: Bool
     var snr: Float
     var nextHop: UInt32
@@ -24,7 +24,7 @@ class NodeInfo_DO
         self.num = 0
         self.user = User_DO()
         self.hasUser = false
-        self.position = Position_DO()
+        self.position = Position()
         self.hasPosition = false
         self.snr = 0
         self.nextHop = 0

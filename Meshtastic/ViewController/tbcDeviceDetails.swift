@@ -77,7 +77,7 @@ class tbcDeviceDetails: UITabBarController
     
     /// Update config-table if device has sent new data
     ///
-    public func refreshRadioConfigData(radioConfig: RadioConfig_DO)
+    public func refreshRadioConfigData(radioConfig: RadioConfig)
     {
         vcConfig.radioConfig = radioConfig
         if (vcConfig.tableView != nil)
@@ -100,8 +100,8 @@ class tbcDeviceDetails: UITabBarController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        vcDebug = (self.viewControllers![2] as? tabVcDebug)
-        vcConfig = (self.viewControllers![1] as? tvcConfig)
+        vcDebug = (self.viewControllers![3] as? tabVcDebug)
+        vcConfig = (self.viewControllers![2] as? tvcConfig)
         vcChats = (self.viewControllers![0] as? tvcChats)
 
         //print(self.viewControllers![0].title!)

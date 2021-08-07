@@ -16,7 +16,7 @@ class tvcChats: UITableViewController
     //---------------------------------------------------------------------------------------
     
     private var user_DP = User_DP()
-    private var chatUsersArray = [User_DO]()
+    private var chatUsersArray = [User]()
     private var selectedUserId: String = ""
     
     
