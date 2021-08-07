@@ -1,3 +1,7 @@
+This is a fork of @thepoweroftwo 's app, with some support for v1.2 device firmware hacked in.  The device settings don't work, but the messaging does, and I added a map view.
+
+I apologise for butchering your app @thepoweroftwo!  I understand others are working on this (and another) app, but I wanted to support my use case (mostly seeing node's locations on a map) and this was the quickest way to do it.  In the future, the other apps will probably end up better than this one.
+
 # Meshtastic iOS App
 
 ![Meshtastic app screenshots](https://abload.de/img/mesh_appj0joz.jpg)
